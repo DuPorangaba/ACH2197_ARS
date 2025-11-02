@@ -6,7 +6,7 @@ import os
 
 # --- 1. Configurações ---
 # ATENÇÃO: Coloque aqui o nome exato do seu arquivo CSV limpo
-ARQUIVO_LIMPO = "../../data/output/carteiras_acoes_limpo_202501_20251025_172017.csv" 
+ARQUIVO_LIMPO = "../../merge-data/output/carteiras_com_setores_20251102_132425.csv" 
 
 # MUDANÇA: Novo nome de arquivo para o grafo dirigido
 agora = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -47,16 +47,20 @@ for i, row in enumerate(df_graph.itertuples(index=False)):
     fund_name = row.DENOM_SOCIAL
     asset_id = str(row.CD_ATIVO)
     asset_name = row.DS_ATIVO
+    sector = row.Setor
 
     # Adiciona os nós (com o atributo 'type' para diferenciação visual)
     # O Gephi/Kumu usará 'type' para colorir os nós.
-    MG.add_node(fund_id, type='fund', name=fund_name)
-    MG.add_node(asset_id, type='asset', name=asset_name)
+    MG.add_node(fund_id, type='fund', name=fund_name, color='lightblue', node_size = 5)
+    MG.add_node(asset_id, type='asset', name=asset_name, color='blue', node_size = 5)
+    MG.add_node(sector, type='sector', name=sector, color='orange', node_size = 10)
 
+    #MUDANÇA: Adiciona arestas DIRIGIDAS (Ativo -> SETOR)
+    MG.add_edge(asset_id, sector, key=f"s{i}", label='sector_link', color='gray')
+    
     # MUDANÇA: Adiciona a aresta DIRIGIDA (Fundo -> Ativo) e COM PESO
     if (row.QT_VENDA_NEGOC > 0): MG.add_edge(fund_id, asset_id, key=f"v{i}", weight=row.QT_VENDA_NEGOC, label='venda', color='red')
     if (row.QT_AQUIS_NEGOC > 0): MG.add_edge(fund_id, asset_id, key=f"a{i}",weight=row.QT_AQUIS_NEGOC, label='aquis', color='green') 
-    if (row.VL_MERC_POS_FINAL > 0 and row.QT_AQUIS_NEGOC == 0 and row.QT_VENDA_NEGOC == 0): MG.add_edge(fund_id, asset_id, key=f"n{i}",label='na', color='yellow') 
 
 print("Grafo construído com sucesso.")
 
@@ -66,6 +70,7 @@ print("Grafo construído com sucesso.")
 print("Calculando estatísticas (contando nós por tipo)...")
 fund_nodes_count = 0
 asset_nodes_count = 0
+sector_nodes_count = 0
 
 # Contamos os nós pelo 'type' que definimos
 for node, data in MG.nodes(data=True):
@@ -74,11 +79,14 @@ for node, data in MG.nodes(data=True):
             fund_nodes_count += 1
         elif data['type'] == 'asset':
             asset_nodes_count += 1
-            
+        elif data['type'] == 'sector':
+            sector_nodes_count += 1
+
 print("\n--- Estatísticas da Rede ---")
 print(f"Total de Nós: {MG.number_of_nodes()}")
 print(f"  - Nós de Fundos: {fund_nodes_count}")
 print(f"  - Nós de Ativos: {asset_nodes_count}")
+print(f"  - Nós de Setores: {sector_nodes_count}")
 print(f"Total de Arestas (Conexões): {MG.number_of_edges()}")
 
 

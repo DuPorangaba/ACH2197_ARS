@@ -6,7 +6,7 @@ import os
 
 # --- 1. Configurações ---
 # ATENÇÃO: Coloque aqui o nome exato do seu arquivo CSV limpo
-ARQUIVO_LIMPO = "../../data/output/carteiras_acoes_limpo_202501_20251018_164206.csv" 
+ARQUIVO_LIMPO = "../../merge-data/output/carteiras_com_setores_20251102_132425.csv" 
 
 # MUDANÇA: Novo nome de arquivo para o grafo dirigido
 agora = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
