@@ -1,0 +1,390 @@
+﻿CD_ATIVO;Setor;Industria
+AMER3;Consumer Cyclical;Internet Retail
+ABEV3;Consumer Defensive;Beverages - Brewers
+AZZA3;Consumer Cyclical;Footwear & Accessories
+BBSE3;Financial Services;Insurance - Diversified
+ALOS3;Real Estate;Real Estate Services
+CPLE3;Utilities;Utilities - Regulated Electric
+ENEV3;Utilities;Utilities - Diversified
+HYPE3;Healthcare;Drug Manufacturers - Specialty & Generic
+MULT3;Real Estate;Real Estate Services
+NTCO3;;
+PSSA3;Financial Services;Insurance - Diversified
+RAIL3;Industrials;Railroads
+UGPA3;Energy;Oil & Gas Refining & Marketing
+VIVT3;Communication Services;Telecom Services
+BRAV3;Energy;Oil & Gas E&P
+CCRO3;;
+CXSE3;Financial Services;Insurance - Diversified
+EMBR3;Industrials;Aerospace & Defense
+EQTL3;Utilities;Utilities - Regulated Electric
+LREN3;Consumer Cyclical;Department Stores
+RENT3;Industrials;Rental & Leasing Services
+SUZB3;Basic Materials;Paper & Paper Products
+TIMS3;Communication Services;Telecom Services
+VALE3;Basic Materials;Other Industrial Metals & Mining
+WEGE3;Industrials;Electrical Equipment & Parts
+DIRR3;Real Estate;Real Estate - Development
+GMAT3;Consumer Cyclical;Department Stores
+PETZ3;Consumer Cyclical;Specialty Retail
+PRIO3;Energy;Oil & Gas E&P
+SLCE3;Consumer Defensive;Farm Products
+TOTS3;Technology;Software - Application
+VBBR3;Consumer Cyclical;Specialty Retail
+YDUQ3;Consumer Defensive;Education & Training Services
+VULC3;Consumer Cyclical;Footwear & Accessories
+VIVA3;Consumer Cyclical;Luxury Goods
+STBP3;Industrials;Marine Shipping
+SBSP3;Utilities;Utilities - Regulated Water
+RECV3;Energy;Oil & Gas E&P
+RADL3;Healthcare;Pharmaceutical Retailers
+PETR3;Energy;Oil & Gas Integrated
+MRFG3;Consumer Defensive;Packaged Foods
+JBSS3;;
+IRBR3;Financial Services;Insurance - Reinsurance
+HAPV3;Financial Services;Insurance - Life
+ELET3;Utilities;Utilities - Renewable
+CSAN3;Energy;Oil & Gas Refining & Marketing
+BRFS3;Consumer Defensive;Packaged Foods
+BBDC3;Financial Services;Banks - Regional
+BBAS3;Financial Services;Banks - Regional
+B3SA3;Financial Services;Financial Data & Stock Exchanges
+CMIG4;Utilities;Utilities - Diversified
+GGBR4;Basic Materials;Steel
+ITSA4;Industrials;Conglomerates
+BRKM5;Basic Materials;Chemicals
+GOAU4;Basic Materials;Steel
+ITUB4;Financial Services;Banks - Regional
+PETR4;Energy;Oil & Gas Integrated
+CPLE6;Utilities;Utilities - Regulated Electric
+ELET6;Utilities;Utilities - Renewable
+POMO4;Industrials;Farm & Heavy Construction Machinery
+BBDC4;Financial Services;Banks - Regional
+AMBP3;Industrials;Waste Management
+AMOB3;Consumer Cyclical;Auto & Truck Dealerships
+ASAI3;Consumer Defensive;Grocery Stores
+AURE3;Utilities;Utilities - Renewable
+BEEF3;Consumer Defensive;Farm Products
+CMIN3;Basic Materials;Steel
+COGN3;Consumer Defensive;Education & Training Services
+CPFE3;Utilities;Utilities - Regulated Electric
+CRFB3;;
+CSMG3;Utilities;Utilities - Regulated Water
+CSNA3;Basic Materials;Steel
+CURY3;Real Estate;Real Estate - Development
+CVCB3;Consumer Cyclical;Travel Services
+CYRE3;Consumer Cyclical;Residential Construction
+DXCO3;Basic Materials;Lumber & Wood Production
+ECOR3;Industrials;Infrastructure Operations
+EGIE3;Utilities;Utilities - Renewable
+EZTC3;Real Estate;Real Estate - Development
+FLRY3;Healthcare;Diagnostics & Research
+GGPS3;Industrials;Specialty Business Services
+LWSA3;Technology;Software - Infrastructure
+MGLU3;Consumer Cyclical;Specialty Retail
+MOVI3;Industrials;Rental & Leasing Services
+MRVE3;Real Estate;Real Estate - Development
+PCAR3;Consumer Cyclical;Department Stores
+RDOR3;Healthcare;Medical Care Facilities
+SMFT3;Consumer Cyclical;Leisure
+SMTO3;Basic Materials;Specialty Chemicals
+TEND3;Real Estate;Real Estate - Development
+VAMO3;Industrials;Rental & Leasing Services
+ALPA4;Consumer Cyclical;Footwear & Accessories
+AZUL4;Industrials;Airlines
+BRAP4;Financial Services;Asset Management
+ISAE4;Utilities;Utilities - Independent Power Producers
+RAIZ4;Utilities;Utilities - Renewable
+USIM5;Basic Materials;Steel
+ANIM3;Consumer Defensive;Education & Training Services
+MEAL3;Consumer Cyclical;Restaurants
+ORVR3;Industrials;Waste Management
+SIMH3;Industrials;Rental & Leasing Services
+SRNA3;Utilities;Utilities - Renewable
+ABCB4;Financial Services;Banks - Regional
+BPAN4;Financial Services;Banks - Regional
+GSHP3;Real Estate;Real Estate - Diversified
+PTBL3;Industrials;Building Products & Equipment
+PTNT3;Consumer Cyclical;Apparel Manufacturing
+SHOW3;Consumer Cyclical;Leisure
+BRSR6;Financial Services;Banks - Regional
+PTNT4;Consumer Cyclical;Apparel Manufacturing
+DESK3;Communication Services;Telecom Services
+PNVL3;Healthcare;Drug Manufacturers - General
+CEBR3;Utilities;Utilities - Regulated Electric
+COCE5;Utilities;Utilities - Regulated Electric
+FRAS3;Consumer Cyclical;Auto Parts
+MDIA3;Consumer Defensive;Packaged Foods
+MLAS3;Technology;Electronics & Computer Distribution
+PORT3;Industrials;Marine Shipping
+CGRA3;Consumer Cyclical;Department Stores
+CGRA4;Consumer Cyclical;Department Stores
+LEVE3;Consumer Cyclical;Auto Parts
+OIBR3;Communication Services;Telecom Services
+TTEN3;Basic Materials;Agricultural Inputs
+SCAR3;Real Estate;Real Estate Services
+CEEB3;Utilities;Utilities - Regulated Electric
+MELK3;Real Estate;Real Estate Services
+NEOE3;Utilities;Utilities - Regulated Electric
+POMO3;Industrials;Farm & Heavy Construction Machinery
+POSI3;Technology;Computer Hardware
+TECN3;Consumer Cyclical;Luxury Goods
+TGMA3;Industrials;Trucking
+VITT3;Basic Materials;Agricultural Inputs
+WEST3;Consumer Cyclical;Specialty Retail
+QUAL3;Healthcare;Healthcare Plans
+MYPK3;Consumer Cyclical;Auto Parts
+CEAB3;Consumer Cyclical;Specialty Retail
+ARML3;Industrials;Rental & Leasing Services
+INTB3;Technology;Communication Equipment
+OPCT3;Industrials;Specialty Business Services
+TFCO4;Consumer Cyclical;Apparel Retail
+ELET5;Utilities;Utilities - Renewable
+BHIA3;Consumer Cyclical;Specialty Retail
+JALL3;Consumer Defensive;Confectioners
+HBRE3;Real Estate;Real Estate Services
+EUCA3;Industrials;Building Products & Equipment
+EKTR3;Utilities;Utilities - Regulated Electric
+CSED3;Consumer Defensive;Education & Training Services
+AFLT3;Utilities;Utilities - Regulated Electric
+EUCA4;Industrials;Building Products & Equipment
+EKTR4;Utilities;Utilities - Regulated Electric
+CEEB5;Utilities;Utilities - Regulated Electric
+RAPT3;Industrials;Farm & Heavy Construction Machinery
+VVEO3;Healthcare;Medical Distribution
+BDLL4;Industrials;Specialty Industrial Machinery
+DOHL4;Consumer Cyclical;Textile Manufacturing
+RAPT4;Industrials;Farm & Heavy Construction Machinery
+EVEN3;Real Estate;Real Estate - Development
+VSTE3;;
+PLPL3;Real Estate;Real Estate - Development
+BIOM3;Healthcare;Biotechnology
+ONCO3;Healthcare;Medical Care Facilities
+ITSA3;Industrials;Conglomerates
+EMAE3;Utilities;Utilities - Diversified
+BPAC5;Financial Services;Capital Markets
+LJQQ3;Consumer Cyclical;Specialty Retail
+KRSA3;;
+MATD3;Healthcare;Medical Care Facilities
+DASA3;Healthcare;Diagnostics & Research
+TASA4;Industrials;Aerospace & Defense
+KEPL3;Industrials;Farm & Heavy Construction Machinery
+VLID3;Industrials;Specialty Business Services
+PFRM3;Healthcare;Medical Distribution
+SJOS4;;
+IFCM3;Industrials;Specialty Business Services
+MTRE3;Real Estate;Real Estate - Development
+GFSA3;Consumer Cyclical;Residential Construction
+JHSF3;Real Estate;Real Estate - Development
+HBOR3;Real Estate;Real Estate Services
+TELB3;Communication Services;Telecom Services
+TELB4;Communication Services;Telecom Services
+HBSA3;Industrials;Integrated Freight & Logistics
+CSUD3;Technology;Software - Infrastructure
+LAVV3;Real Estate;Real Estate Services
+LIGT3;Utilities;Utilities - Renewable
+SHUL4;Consumer Cyclical;Auto Parts
+DOTZ3;Communication Services;Advertising Agencies
+ENJU3;Consumer Cyclical;Internet Retail
+GUAR3;Consumer Cyclical;Apparel Manufacturing
+INEP3;Industrials;Specialty Industrial Machinery
+LVTC3;Communication Services;Telecom Services
+ITUB3;Financial Services;Banks - Regional
+AGRO3;Consumer Defensive;Farm Products
+CAML3;Consumer Defensive;Packaged Foods
+CBAV3;Basic Materials;Aluminum
+KLBN3;Basic Materials;Paper & Paper Products
+RNEW3;Utilities;Utilities - Renewable
+SAPR3;Utilities;Utilities - Regulated Water
+SOJA3;Basic Materials;Agricultural Inputs
+ZAMP3;Consumer Cyclical;Restaurants
+KLBN4;Basic Materials;Paper & Paper Products
+RNEW4;Utilities;Utilities - Renewable
+SAPR4;Utilities;Utilities - Regulated Water
+PRNR3;Industrials;Engineering & Construction
+CAMB3;Consumer Cyclical;Leisure
+CALI3;Industrials;Engineering & Construction
+JFEN3;Real Estate;Real Estate Services
+SBFG3;Consumer Cyclical;Specialty Retail
+BMGB4;Financial Services;Banks - Regional
+AVLL3;Real Estate;Real Estate - Development
+OFSA3;Healthcare;Drug Manufacturers - Specialty & Generic
+MDNE3;Real Estate;Real Estate Services
+MTSA3;Industrials;Farm & Heavy Construction Machinery
+MGEL4;Basic Materials;Steel
+MTSA4;Industrials;Farm & Heavy Construction Machinery
+BIED3;Consumer Defensive;Education & Training Services
+ODPV3;Healthcare;Healthcare Plans
+RANI3;Consumer Cyclical;Packaging & Containers
+SEER3;Consumer Defensive;Education & Training Services
+MILS3;Industrials;Rental & Leasing Services
+BLAU3;Healthcare;Drug Manufacturers - Specialty & Generic
+CMIG3;Utilities;Utilities - Diversified
+GRND3;Consumer Cyclical;Footwear & Accessories
+HAGA4;Industrials;Building Products & Equipment
+AERI3;Industrials;Specialty Industrial Machinery
+FIQE3;Communication Services;Telecom Services
+MEND6;;
+WIZC3;Financial Services;Insurance Brokers
+UNIP6;Basic Materials;Chemicals
+FESA4;Basic Materials;Steel
+CLSA3;;
+UNIP3;Basic Materials;Chemicals
+TUPY3;Industrials;Metal Fabrication
+TRIS3;Real Estate;Real Estate Services
+TAEE3;Utilities;Utilities - Regulated Electric
+SYNE3;Real Estate;Real Estate Services
+SEQL3;Industrials;Integrated Freight & Logistics
+RCSL3;Industrials;Specialty Industrial Machinery
+PGMN3;Healthcare;Pharmaceutical Retailers
+NGRD3;Technology;Software - Application
+LOGN3;Industrials;Marine Shipping
+LOGG3;Real Estate;Real Estate Services
+GOAU3;Basic Materials;Steel
+FHER3;Basic Materials;Agricultural Inputs
+ETER3;Industrials;Building Products & Equipment
+ESPA3;Consumer Cyclical;Personal Services
+ELMD3;;
+AMAR3;Consumer Cyclical;Apparel Retail
+GOLL4;;
+RSID3;Consumer Cyclical;Residential Construction
+CASH3;Communication Services;Internet Content & Information
+TRAD3;Technology;Software - Application
+PASS6;;
+UNIP5;Basic Materials;Chemicals
+TCSA3;Real Estate;Real Estate - Development
+MBLY3;;
+BMOB3;Communication Services;Entertainment
+IGTI3;Real Estate;Real Estate Services
+BRAP3;Financial Services;Asset Management
+CLSC4;Utilities;Utilities - Regulated Electric
+ENGI4;Utilities;Utilities - Regulated Electric
+EMAE4;Utilities;Utilities - Diversified
+BAUH4;Consumer Defensive;Packaged Foods
+EQMA3B;Utilities;Utilities - Regulated Electric
+WHRL3;Consumer Cyclical;Furnishings, Fixtures & Appliances
+BMEB4;Financial Services;Banks - Regional
+WHRL4;Consumer Cyclical;Furnishings, Fixtures & Appliances
+LAND3;Consumer Defensive;Farm Products
+PMAM3;Basic Materials;Copper
+AGXY3;Basic Materials;Agricultural Inputs
+ALLD3;Technology;Software - Application
+AALR3;Healthcare;Diagnostics & Research
+BRST3;Communication Services;Telecom Services
+DEXP3;Basic Materials;Chemicals
+DMVF3;Healthcare;Pharmaceutical Retailers
+JSLG3;Industrials;Integrated Freight & Logistics
+LUPA3;Energy;Oil & Gas Equipment & Services
+MNDL3;Consumer Defensive;Household & Personal Products
+INEP4;Industrials;Specialty Industrial Machinery
+PTSL4;;
+AZEV3;Industrials;Engineering & Construction
+AZEV4;Industrials;Engineering & Construction
+LPSB3;Real Estate;Real Estate Services
+ALPK3;Industrials;Infrastructure Operations
+ROMI3;Industrials;Industrial Distribution
+USIM3;Basic Materials;Steel
+GEPA3;Utilities;Utilities - Regulated Electric
+LIPR3;;
+MSPA3;Basic Materials;Lumber & Wood Production
+SANB3;Financial Services;Banks - Regional
+IMBI4;;
+MSPA4;Basic Materials;Lumber & Wood Production
+SANB4;Financial Services;Banks - Regional
+RDNI3;Real Estate;Real Estate - Development
+VTRU3;Consumer Defensive;Education & Training Services
+EGGY3;;
+TKNO4;Basic Materials;Steel
+LUXM4;Industrials;Marine Shipping
+EQPA3;Utilities;Utilities - Regulated Electric
+EALT4;Industrials;Metal Fabrication
+ENMT3;Utilities;Utilities - Regulated Electric
+BOBR4;Consumer Defensive;Household & Personal Products
+MNPR3;Consumer Defensive;Farm Products
+TPIS3;Industrials;Infrastructure Operations
+BEES3;Financial Services;Banks - Regional
+CEBR6;Utilities;Utilities - Regulated Electric
+MOAR3;Industrials;Conglomerates
+ENMT4;Utilities;Utilities - Regulated Electric
+PINE3;Financial Services;Banks - Regional
+PINE4;Financial Services;Banks - Regional
+CGAS5;Utilities;Utilities - Regulated Gas
+OIBR4;Communication Services;Telecom Services
+GGBR3;Basic Materials;Steel
+NINJ3;;
+PDTC3;Technology;Communication Equipment
+BGIP4;Financial Services;Banks - Regional
+CEDO4;Consumer Cyclical;Textile Manufacturing
+GEPA4;Utilities;Utilities - Regulated Electric
+NEXP3;Real Estate;Real Estate Services
+FRIO3;Consumer Cyclical;Furnishings, Fixtures & Appliances
+UCAS3;Consumer Cyclical;Furnishings, Fixtures & Appliances
+RPMG3;Energy;Oil & Gas Refining & Marketing
+ATMP3;;
+BRKM3;Basic Materials;Chemicals
+TASA3;Industrials;Aerospace & Defense
+TEKA4;Consumer Cyclical;Textile Manufacturing
+BSLI4;Financial Services;Banks - Regional
+PDGR3;Real Estate;Real Estate - Development
+BRIT3;;
+CLSC3;Utilities;Utilities - Regulated Electric
+CTNM3;Consumer Cyclical;Textile Manufacturing
+CEBR5;Utilities;Utilities - Regulated Electric
+BAZA3;Financial Services;Banks - Regional
+MAGG3;;
+BPAR3;;
+MSTR3;;
+CTNM4;Consumer Cyclical;Textile Manufacturing
+REDE3;Utilities;Utilities - Regulated Electric
+ALPA3;Consumer Cyclical;Footwear & Accessories
+SGPS3;Consumer Cyclical;Textile Manufacturing
+COCE3;Utilities;Utilities - Regulated Electric
+CEGR3;Utilities;Utilities - Regulated Gas
+CRPG5;Basic Materials;Chemicals
+FIEI3;Real Estate;Real Estate - Development
+ENGI3;Utilities;Utilities - Regulated Electric
+VIVR3;Real Estate;Real Estate - Development
+CEED4;Utilities;Utilities - Regulated Electric
+ESTR4;Consumer Cyclical;Leisure
+TAEE4;Utilities;Utilities - Regulated Electric
+CEED3;Utilities;Utilities - Regulated Electric
+MRSA3B;Industrials;Railroads
+MRSA5B;Industrials;Railroads
+MRSA6B;Industrials;Railroads
+PASS5;;
+BSLI3;Financial Services;Banks - Regional
+EPAR3;Basic Materials;Lumber & Wood Production
+BALM4;Healthcare;Medical Instruments & Supplies
+IGTI4;Real Estate;Real Estate Services
+BNBR3;Financial Services;Banks - Regional
+CBEE3;Utilities;Utilities - Regulated Electric
+CTKA4;Consumer Cyclical;Textile Manufacturing
+BMEB3;Financial Services;Banks - Regional
+TXRX4;Consumer Cyclical;Textile Manufacturing
+SCLO4;;
+MWET4;Consumer Cyclical;Auto Parts
+ALUP3;Utilities;Utilities - Renewable
+OPSE3;;
+RCSL4;Industrials;Specialty Industrial Machinery
+EQPA5;Utilities;Utilities - Regulated Electric
+MERC4;Financial Services;Banks - Regional
+CRPG6;Basic Materials;Chemicals
+RSUL4;Consumer Cyclical;Auto Parts
+WLMM4;Consumer Cyclical;Auto & Truck Dealerships
+AESB3;;
+COMR3;;
+BPAC3;Financial Services;Capital Markets
+BRSR3;Financial Services;Banks - Regional
+SNSY3;Consumer Cyclical;Auto Parts
+ALUP4;Utilities;Utilities - Renewable
+BRKM6;Basic Materials;Chemicals
+CPLE5;Utilities;Utilities - Regulated Electric
+DEXP4;Basic Materials;Chemicals
+FBMC4;;
+FESA3;Basic Materials;Steel
+TKNO3;Basic Materials;Steel
+MMAQ4;Consumer Cyclical;Auto & Truck Dealerships
+SNSY5;Consumer Cyclical;Auto Parts
+PLAS3;Consumer Cyclical;Auto Parts
+APTI4;;
+JOPA4;Consumer Defensive;Packaged Foods
