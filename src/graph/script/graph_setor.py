@@ -42,8 +42,8 @@ def build_graph(df_edges: pd.DataFrame) -> nx.DiGraph:
     """Build directed graph from edges data."""
     print("Construindo o grafo dirigido (Fundo -> Ativo)...")
     G = nx.DiGraph()
-    
-    for row in df_edges.itertuples(index=False):
+
+    for i, row in enumerate(df_edges.itertuples(index=False)):
         fund_id = str(row.CNPJ_FUNDO_CLASSE)
         fund_name = row.DENOM_SOCIAL
         setor = row.Setor
@@ -51,7 +51,12 @@ def build_graph(df_edges: pd.DataFrame) -> nx.DiGraph:
         G.add_node(setor, type='sector', name=setor, node_size=5)
         G.add_node(fund_id, type='fund', name=fund_name)
         
-        G.add_edge(setor, fund_id)
+        if row.QT_VENDA_NEGOC > 0:
+            G.add_edge(fund_id, setor, key=f"v{i}", 
+                       weight=row.QT_VENDA_NEGOC, label='venda', color='red')
+        if row.QT_AQUIS_NEGOC > 0:
+            G.add_edge(fund_id, setor, key=f"a{i}",
+                       weight=row.QT_AQUIS_NEGOC, label='aquis', color='green')
     
     return G
 
