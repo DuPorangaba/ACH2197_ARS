@@ -5,21 +5,21 @@ import os
 from typing import Tuple
 
 def setup_paths(periodo: str) -> Tuple[str, str, str]:
-    """Setup input and output file paths."""
+    """Configura os caminhos dos arquivos de entrada e saída."""
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     carteiras_path = os.path.join(base_dir, "cvm_data", "output", f"carteiras_acoes_limpo_{periodo}.csv")
     setores_path = os.path.join(base_dir, "yahoo_data", "output", f"ativo_setores-{periodo}.csv")
 
-    # Create output directory
+    # Cria o diretório de saída
     os.makedirs(os.path.join(base_dir, "output"), exist_ok=True)
 
-    # Generate output filename
+    # Gera nome do arquivo de saída
     output_path = os.path.join(base_dir, "output", f"carteiras_com_setores_{periodo}.csv")
 
     return carteiras_path, setores_path, output_path
 
 def load_dataframes(carteiras_path: str, setores_path: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Load both input DataFrames."""
+    """Carrega ambos os DataFrames de entrada."""
     try:
         df_carteiras = pd.read_csv(carteiras_path, sep=';', encoding='utf-8-sig')
         print("Arquivo de carteiras carregado com sucesso.")
@@ -36,7 +36,7 @@ def load_dataframes(carteiras_path: str, setores_path: str) -> Tuple[pd.DataFram
         sys.exit(1)
 
 def merge_dataframes(df_carteiras: pd.DataFrame, df_setores: pd.DataFrame) -> pd.DataFrame:
-    """Merge carteiras and setores DataFrames and remove records without sector."""
+    """Une os DataFrames de carteiras e setores e remove registros sem setor."""
     try:
         df_merged = pd.merge(
             df_carteiras,
@@ -45,15 +45,15 @@ def merge_dataframes(df_carteiras: pd.DataFrame, df_setores: pd.DataFrame) -> pd
             how='left'
         )
         
-        # Print statistics before removing null sectors
+        # Imprime estatísticas antes de remover setores nulos
         print("\nEstatísticas antes da remoção de registros sem setor:")
         print(f"Total de registros: {len(df_merged)}")
         print(f"Registros sem setor: {df_merged['Setor'].isna().sum()}")
         
-        # Remove records where Setor is null
+        # Remove registros onde Setor é nulo
         df_merged = df_merged.dropna(subset=['Setor'])
         
-        # Reorder columns to put 'Setor' as fourth column
+        # Reordena as colunas para colocar 'Setor' como quarta coluna
         colunas = list(df_merged.columns)
         colunas.remove('Setor')
         colunas.insert(3, 'Setor')
@@ -67,7 +67,7 @@ def merge_dataframes(df_carteiras: pd.DataFrame, df_setores: pd.DataFrame) -> pd
         sys.exit(1)
 
 def print_merge_stats(df_carteiras: pd.DataFrame, df_merged: pd.DataFrame) -> None:
-    """Print merge statistics."""
+    """Imprime estatísticas do merge."""
     print(f"\nMerge concluído:")
     print(f"Registros originais: {len(df_carteiras)}")
     print(f"Registros após merge: {len(df_merged)}")
@@ -75,7 +75,7 @@ def print_merge_stats(df_carteiras: pd.DataFrame, df_merged: pd.DataFrame) -> No
     print(f"Registros sem setor: {sem_setor}")
 
 def save_results(df_merged: pd.DataFrame, output_path: str) -> None:
-    """Save merged DataFrame to CSV."""
+    """Salva o DataFrame unido em CSV."""
     try:
         df_merged.to_csv(output_path, index=False, sep=';', encoding='utf-8-sig')
         print(f"\nArquivo salvo com sucesso em: {output_path}")
@@ -86,28 +86,28 @@ def save_results(df_merged: pd.DataFrame, output_path: str) -> None:
         sys.exit(1)
 
 def merge_data(periodo: str) -> pd.DataFrame:
-    """Main function to merge carteiras and setores data."""
+    """Função principal para unir dados de carteiras e setores."""
     print("Iniciando processo de merge dos arquivos...")
     
-    # Setup paths
+    # Configura caminhos
     carteiras_path, setores_path, output_path = setup_paths(periodo)
     
-    # Load data
+    # Carrega dados
     df_carteiras, df_setores = load_dataframes(carteiras_path, setores_path)
     
-    # Merge dataframes
+    # Une dataframes
     df_merged = merge_dataframes(df_carteiras, df_setores)
     
-    # Save results
+    # Salva resultados
     save_results(df_merged, output_path)
     
     return df_merged
 
 if __name__ == "__main__":
-    # If running as main script, use command line argument for period
+    # Se executando como script principal, usa argumento de linha de comando para período
     if len(sys.argv) != 2:
-        print("Usage: python merge.py PERIOD")
-        print("Example: python merge.py 202501")
+        print("Uso: python merge.py PERIODO")
+        print("Exemplo: python merge.py 202501")
         sys.exit(1)
     
     periodo = sys.argv[1]

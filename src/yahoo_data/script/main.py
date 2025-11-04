@@ -6,20 +6,20 @@ from typing import List, Dict
 import datetime
 
 def setup_paths(periodo: str) -> tuple:
-    """Setup input and output paths."""
+    """Configura os caminhos de entrada e saída."""
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     input_path = os.path.join(base_dir, "cvm_data", "output", f"carteiras_acoes_limpo_{periodo}.csv")
         
-    # Create output directory if it doesn't exist
+    # Cria o diretório de saída se não existir
     os.makedirs(os.path.join(base_dir, "yahoo_data", "output"), exist_ok=True)
 
-    # Generate output filename with timestamp
+    # Gera nome do arquivo de saída
     output_path = os.path.join(base_dir, "yahoo_data", "output", f"ativo_setores-{periodo}.csv")
 
     return input_path, output_path
 
 def load_data(input_path: str) -> List[str]:
-    """Load input data and return unique fund codes."""
+    """Carrega dados e retorna códigos únicos dos fundos."""
     try:
         df = pd.read_csv(input_path, sep=";")
         return df["CD_ATIVO"].dropna().unique().tolist()
@@ -28,7 +28,7 @@ def load_data(input_path: str) -> List[str]:
         return []
 
 def fetch_yahoo_data(fund: str) -> Dict:
-    """Fetch data from Yahoo Finance for a single fund."""
+    """Busca dados do Yahoo Finance para um único fundo."""
     ticker_symbol = f"{fund}.SA"
     print(f"Buscando {ticker_symbol}...")
     
@@ -50,16 +50,16 @@ def fetch_yahoo_data(fund: str) -> Dict:
         }
 
 def process_funds(funds: List[str]) -> pd.DataFrame:
-    """Process all funds and return consolidated DataFrame."""
+    """Processa todos os fundos e retorna DataFrame consolidado."""
     dados = []
     for fund in funds:
         dados.append(fetch_yahoo_data(fund))
-        sleep(0.5)  # avoid overloading the server
+        sleep(0.5)  # evita sobrecarregar o servidor
     
     return pd.DataFrame(dados)
 
 def save_results(df: pd.DataFrame, output_path: str) -> None:
-    """Save results to CSV file."""
+    """Salva resultados em arquivo CSV."""
     try:
         df.to_csv(output_path, sep=";", index=False, encoding="utf-8-sig")
         print(f"\n Arquivo salvo em: {output_path}")
@@ -67,30 +67,30 @@ def save_results(df: pd.DataFrame, output_path: str) -> None:
         print(f"Erro ao salvar arquivo: {e}")
 
 def yahoo_data(periodo: str) -> pd.DataFrame:
-    """Main function to process Yahoo Finance data."""
-    # Setup paths
+    """Função principal para processar dados do Yahoo Finance."""
+    # Configura caminhos
     input_path, output_path = setup_paths(periodo)
     
-    # Load unique fund codes
+    # Carrega códigos únicos dos fundos
     funds = load_data(input_path)
     if not funds:
         return pd.DataFrame()
     
-    # Process funds
+    # Processa fundos
     df_funds_infos = process_funds(funds)
     
-    # Save results
+    # Salva resultados
     save_results(df_funds_infos, output_path)
     
     return df_funds_infos
 
 if __name__ == "__main__":
-    # If running as main script, use command line argument for period
+    # Se executando como script principal, usa argumento de linha de comando para período
     import sys
     
     if len(sys.argv) != 2:
-        print("Usage: python main.py PERIOD")
-        print("Example: python main.py 202501")
+        print("Uso: python main.py PERIODO")
+        print("Exemplo: python main.py 202501")
         sys.exit(1)
     
     periodo = sys.argv[1]

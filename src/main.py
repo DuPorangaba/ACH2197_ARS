@@ -46,79 +46,79 @@ def process_files():
     input_files = glob.glob(os.path.join(ARQUIVOS_CARTEIRAS, "*.csv"))
     print(input_files)
     if not input_files:
-        print("❌ No CSV files found in input directory!")
+        print("No CSV files found in input directory!")
         return
     
     print(f"🔍 Found {len(input_files)} files to process")
     
     for input_file in input_files:
-        print(f"\n📁 Processing file: {input_file}")
+        print(f"\n Processing file: {input_file}")
         
         # Get period from filename
         periodo = get_period_from_filename(input_file)
         if not periodo:
-            print(f"❌ Could not extract period from filename: {input_file}")
+            print(f"Could not extract period from filename: {input_file}")
             return
             
         try:
             # 1. Process CVM data
             if check_output_exists(periodo, 'cvm'):
-                print("✅ CVM data already processed, skipping...")
+                print("CVM data already processed, skipping...")
             else:
                 print("\n=== Running CVM data processing ===")
                 df_cvm = cvm_data_limpeza(input_file)
                 if df_cvm is None or df_cvm.empty:
-                    print("❌ CVM data processing failed")
+                    print("CVM data processing failed")
                     return
                 
             # 2. Process Yahoo data
             if check_output_exists(periodo, 'yahoo'):
-                print("✅ Yahoo data already processed, skipping...")
+                print("Yahoo data already processed, skipping...")
             else:
                 print("\n=== Running Yahoo data processing ===")
                 df_yahoo = yahoo_data(periodo)
                 if df_yahoo is None or df_yahoo.empty:
-                    print("❌ Yahoo data processing failed")
+                    print("Yahoo data processing failed")
                     return
                 
             # 3. Merge data
             if check_output_exists(periodo, 'merge'):
-                print("✅ Merge already processed, skipping...")
+                print("Merge already processed, skipping...")
             else:
                 print("\n=== Running data merge ===")
                 df_merged = merge_data(periodo)
                 if df_merged is None or df_merged.empty:
-                    print("❌ Data merge failed")
+                    print("Data merge failed")
                     return
                 
              # 4. Graph Transactions
             if check_output_exists(periodo, 'graph_trans'):
-                print("✅ Graph transactions already processed, skipping...")
+                print("Graph transactions already processed, skipping...")
             else:
                 print("\n=== Running graph transactions processing ===")
                 G_trans = create_transaction_graph(periodo)
                 if G_trans is None:
-                    print("❌ Graph transactions processing failed")
+                    print("Graph transactions processing failed")
                     return
                 
             # 5. Graph Sector
             if check_output_exists(periodo, 'graph_setor'):
-                print("✅ Graph sector already processed, skipping...")
+                print("Graph sector already processed, skipping...")
             else:
                 print("\n=== Running graph sector processing ===")
                 G_setor = create_graph(periodo)
                 if G_setor is None:
-                    print("❌ Graph sector processing failed")
+                    print("Graph sector processing failed")
                     return
                 
-            print(f"✅ Successfully processed file for period {periodo}")
+            print(f"Successfully processed file for period {periodo}")
             
         except Exception as e:
-            print(f"❌ Error processing file {input_file}: {str(e)}")
+            print(f"Error processing file {input_file}: {str(e)}")
             continue
 
 if __name__ == "__main__":
-    print("🚀 Starting data processing pipeline...")
+    print("Starting data processing pipeline...")
     process_files()
     print("\n✨ Processing complete!")
 

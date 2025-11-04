@@ -3,9 +3,6 @@ import sys
 import datetime
 import os # Import 'os' para criar o diretório de saída
 
-## Ficar apenas com as ações da cvm
-## Ficar apenas com os campos 
-
 # --- 1. Configurações ---
 ARQUIVO_ENTRADA = "../output/cotacoes_historicas_202501_20251102_121101.csv" 
 
