@@ -1,169 +1,223 @@
 import pandas as pd
-import json
 import sys
 import os
-import datetime
+from typing import Dict
 
-# --- Classes de Modelo ---
+import filtro_grafo
+import filtro_grafo_compra_venda
+import filtro_colaborativo
+import filtro_conteudo
+import filtro_hibrido
+import funcoes_auxiliares
 
-class Fundo:
-    """Representa um único fundo de investimento."""
-    def __init__(self, fundo_id, nome):
-        self.id = fundo_id
-        self.nome = nome
-        # Dicionário para armazenar os ativos e seus detalhes
-        # Chave: ID do Ativo, Valor: Dicionário com detalhes da posição
-        self.ativos = {}
-
-    def adicionar_ativo(self, ativo_id, detalhes_posicao):
-        """Adiciona uma conexão com um ativo e seus detalhes."""
-        self.ativos[ativo_id] = detalhes_posicao
-
-    def to_dict(self):
-        """Converte o objeto Fundo para um dicionário serializável."""
-        return {
-            "id": self.id,
-            "nome": self.nome,
-            "total_conexoes_ativos": len(self.ativos),
-            "ativos": self.ativos
-        }
-
-class Ativo:
-    """Representa uma única ação (ativo)."""
-    def __init__(self, ativo_id, nome):
-        self.id = ativo_id
-        self.nome = nome
-        # Usamos um set para garantir que os IDs dos fundos sejam únicos
-        self._fundos_investidores_set = set()
-
-    def adicionar_fundo(self, fundo_id):
-        """Adiciona uma conexão com um fundo que investe neste ativo."""
-        self._fundos_investidores_set.add(fundo_id)
-
-    def to_dict(self):
-        """Converte o objeto Ativo para um dicionário serializável."""
-        # Convertendo o set para uma lista para a saída JSON
-        fundos_investidores_lista = sorted(list(self._fundos_investidores_set))
-        return {
-            "id": self.id,
-            "nome": self.nome,
-            "total_conexoes_fundos": len(fundos_investidores_lista),
-            "fundos_investidores": fundos_investidores_lista
-        }
-
-# --- Classe de Processamento ---
-
-class ProcessadorDeRede:
+class SistemaRecomendadorAcoes:
     """
-    Lê os dados limpos, cria os objetos de Fundo e Ativo
-    e gera os arquivos JSON de saída.
+    Sistema Abrangente de Recomendação de Ações implementando múltiplas abordagens:
+    1. Filtragem Colaborativa (similaridade baseada em fundos)
+    2. Filtragem por Conteúdo (baseada em setor/atributos)
+    3. Análise de Co-ocorrência (cesta de mercado)
+    4. Abordagem baseada em Grafo (análise de rede)
     """
-    def __init__(self, arquivo_entrada):
-        self.arquivo_entrada = arquivo_entrada
-        # Dicionários para acesso rápido aos objetos já criados
-        self.fundos = {}
-        self.ativos = {}
+    
+    def __init__(self, caminho_csv: str):
+        """
+        Inicializa o sistema de recomendação com dados.
+        
+        Args:
+            caminho_csv: Caminho para o arquivo CSV com dados de carteiras
+        """
+        self.df = pd.read_csv(caminho_csv, sep=',', encoding='utf-8-sig')
+        self._preprocessar_dados()
+        
+    def _preprocessar_dados(self):
+        """Limpa e prepara os dados."""
+        # Converte colunas numéricas
+        colunas_numericas = ['QT_POS_FINAL', 'VL_MERC_POS_FINAL', 
+                            'QT_VENDA_NEGOC', 'VL_VENDA_NEGOC',
+                            'QT_AQUIS_NEGOC', 'VL_AQUIS_NEGOC']
+        
+        for col in colunas_numericas:
+            if col in self.df.columns:
+                self.df[col] = pd.to_numeric(self.df[col], errors='coerce').fillna(0)
+        
+        # Filtra apenas posições com saldo
+        self.df_fundos_ativos = self.df[self.df['QT_POS_FINAL'] > 0].copy()
 
-    def processar(self):
-        """Método principal para executar todo o processo."""
-        print(f"Carregando dados de: {self.arquivo_entrada}")
-        try:
-            df = pd.read_csv(self.arquivo_entrada, sep=';', encoding='utf-8-sig')
-            # Converte CNPJ para string para evitar problemas com notação científica
-            df['CNPJ_FUNDO_CLASSE'] = df['CNPJ_FUNDO_CLASSE'].astype(str)
-        except FileNotFoundError:
-            print(f"--- ERRO ---: Arquivo '{self.arquivo_entrada}' não encontrado.")
-            sys.exit()
-        except Exception as e:
-            print(f"--- ERRO --- ao ler o arquivo: {e}")
-            sys.exit()
-
-        print("Dados carregados. Processando e criando objetos...")
+        # Converte CNPJ para string
+        self.df_fundos_ativos['CNPJ_FUNDO_CLASSE'] = self.df_fundos_ativos['CNPJ_FUNDO_CLASSE'].astype("string")
         
-        # Itera sobre cada linha do DataFrame para construir os objetos
-        for row in df.itertuples(index=False):
-            fundo_id = row.CNPJ_FUNDO_CLASSE
-            ativo_id = row.CD_ATIVO
-            
-            # --- Cria ou obtém o objeto Fundo ---
-            if fundo_id not in self.fundos:
-                self.fundos[fundo_id] = Fundo(fundo_id=fundo_id, nome=row.DENOM_SOCIAL)
-            
-            fundo_obj = self.fundos[fundo_id]
-            
-            # --- Cria ou obtém o objeto Ativo ---
-            if ativo_id not in self.ativos:
-                self.ativos[ativo_id] = Ativo(ativo_id=ativo_id, nome=row.DS_ATIVO)
-                
-            ativo_obj = self.ativos[ativo_id]
-            
-            # --- Constrói as relações ---
-            detalhes_posicao = {
-                'QT_POS_FINAL': row.QT_POS_FINAL,
-                'VL_MERC_POS_FINAL': row.VL_MERC_POS_FINAL,
-                'QT_VENDA_NEGOC': row.QT_VENDA_NEGOC,
-                'VL_VENDA_NEGOC': row.VL_VENDA_NEGOC,
-                'QT_AQUIS_NEGOC': row.QT_AQUIS_NEGOC,
-                'VL_AQUIS_NEGOC': row.VL_AQUIS_NEGOC
-            }
-            
-            # Adiciona a conexão no objeto Fundo
-            fundo_obj.adicionar_ativo(ativo_id, detalhes_posicao)
-            
-            # Adiciona a conexão no objeto Ativo
-            ativo_obj.adicionar_fundo(fundo_id)
-            
-        print("Processamento concluído.")
+        # Cria matriz fundo-ação
+        self.matriz_fundo_acao = self.df_fundos_ativos.pivot_table(
+            index='CNPJ_FUNDO_CLASSE',
+            columns='CD_ATIVO',
+            values='VL_MERC_POS_FINAL',
+            fill_value=0
+        )
         
-    def salvar_json(self, pasta_saida):
-        """Salva os dados processados em dois arquivos JSON."""
-        print("Preparando para salvar os arquivos JSON...")
-        os.makedirs(pasta_saida, exist_ok=True)
+        print(f"✅ Dados carregados: {len(self.df_fundos_ativos)} posições")
+        print(f"📊 Fundos únicos: {self.df_fundos_ativos['CNPJ_FUNDO_CLASSE'].nunique()}")
+        print(f"📈 Ações únicas: {self.df_fundos_ativos['CD_ATIVO'].nunique()}")
+    
+    def obter_perfil_fundo(self, cnpj_fundo: str) -> Dict:
+        funcoes_auxiliares.obtem_perfil_fundo(self.df_fundos_ativos, cnpj_fundo)
+    
+    def recomendar_filtragem_colaborativa(self, cnpj_fundo: str, top_n: int = 10) -> pd.DataFrame:
+        """
+        Recomenda ações usando filtragem colaborativa.
         
-        # --- Prepara dados dos Fundos ---
-        lista_fundos_dict = [fundo.to_dict() for fundo in self.fundos.values()]
-        output_fundos = {
-            "quantidade_total_fundos": len(lista_fundos_dict),
-            "fundos": lista_fundos_dict
+        Args:
+            cnpj_fundo: CNPJ do fundo alvo
+            top_n: Número de recomendações
+            
+        Returns:
+            DataFrame com recomendações
+        """
+        print("\n🔍 Executando recomendação por filtragem colaborativa...")
+        resultados = filtro_colaborativo.filtro_colaborativo(
+            self.df_fundos_ativos, 
+            self.matriz_fundo_acao, 
+            cnpj_fundo, 
+            top_n
+        )
+        return resultados
+    
+    def recomendar_filtragem_conteudo(self, cnpj_fundo: str, top_n: int = 10) -> pd.DataFrame:
+        """
+        Recomenda ações usando filtragem por conteúdo.
+        
+        Args:
+            cnpj_fundo: CNPJ do fundo alvo
+            top_n: Número de recomendações
+            
+        Returns:
+            DataFrame com recomendações
+        """
+        print("\n🔍 Executando recomendação por filtragem de conteúdo...")
+        resultados = filtro_conteudo.filtro_baseado_conteudo(
+            self.df_fundos_ativos, 
+            cnpj_fundo, 
+            top_n
+        )
+        return resultados
+    
+    def recomendar_analise_grafo(self, cnpj_fundo: str, top_n: int = 10) -> pd.DataFrame:
+        """
+        Recomenda ações usando análise de grafo/rede.
+        
+        Args:
+            cnpj_fundo: CNPJ do fundo alvo
+            top_n: Número de recomendações
+            
+        Returns:
+            DataFrame com recomendações
+        """
+        print("\n🔍 Executando recomendação por análise de grafo...")
+        resultados = filtro_grafo_compra_venda.recomendacao_baseada_em_grafo_compra_venda(
+            self.df_fundos_ativos, 
+            cnpj_fundo, 
+            top_n
+        )
+        return resultados
+    
+    def recomendar_filtro_hibrido(self, cnpj_fundo: str, top_n: int = 10) -> pd.DataFrame:
+        """
+        Recomenda ações usando filtro híbrido (combinação de todas as abordagens).
+        
+        Args:
+            cnpj_fundo: CNPJ do fundo alvo
+            top_n: Número de recomendações
+            
+        Returns:
+            DataFrame com recomendações
+        """
+        print("\n🔍 Executando recomendação por filtro híbrido...")
+        resultados = filtro_hibrido.filtro_hibrido(
+            self.df_fundos_ativos, 
+            self.matriz_fundo_acao,
+            cnpj_fundo, 
+            top_n
+        )
+        return resultados
+    
+    def comparar_abordagens(self, cnpj_fundo: str, top_n: int = 10) -> Dict[str, pd.DataFrame]:
+        """
+        Compara todas as abordagens de recomendação.
+        
+        Args:
+            cnpj_fundo: CNPJ do fundo alvo
+            top_n: Número de recomendações
+            
+        Returns:
+            Dicionário com resultados de cada abordagem
+        """
+        print("\n" + "="*60)
+        print("GERANDO RECOMENDAÇÕES PARA O FUNDO")
+        print("="*60)
+        
+        resultados = {
+            'filtragem_colaborativa': self.recomendar_filtragem_colaborativa(cnpj_fundo, top_n),
+            'filtragem_conteudo': self.recomendar_filtragem_conteudo(cnpj_fundo, top_n),
+            'analise_grafo': self.recomendar_analise_grafo(cnpj_fundo, top_n),
+            'hibrido': self.recomendar_filtro_hibrido(cnpj_fundo, top_n)
         }
+        return resultados
+    
+    def salvar_recomendacoes(self, resultados: Dict[str, pd.DataFrame], diretorio_saida: str = '../saida') -> None:
+        """
+        Salva as recomendações em arquivos CSV.
         
-        # --- Prepara dados dos Ativos ---
-        lista_ativos_dict = [ativo.to_dict() for ativo in self.ativos.values()]
-        output_ativos = {
-            "quantidade_total_ativos": len(lista_ativos_dict),
-            "ativos": lista_ativos_dict
-        }
+        Args:
+            resultados: Dicionário com resultados de cada abordagem
+            diretorio_saida: Diretório de saída
+        """
+        os.makedirs(diretorio_saida, exist_ok=True)
+        
+        for abordagem, df in resultados.items():
+            caminho_saida = os.path.join(diretorio_saida, f"recomendacoes_{abordagem}.csv")
+            df.to_csv(caminho_saida, sep=';', encoding='utf-8-sig', index=False)
+            print(f"✅ Recomendações {abordagem} salvas em: {caminho_saida}")
 
-        # --- Salva os arquivos ---
-        agora = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        caminho_fundos = os.path.join(pasta_saida, f'fundos_{agora}.json')
-        caminho_ativos = os.path.join(pasta_saida, f'ativos_{agora}.json')
+# ==================== EXEMPLO DE USO ====================
 
-        try:
-            with open(caminho_fundos, 'w', encoding='utf-8') as f:
-                # indent=2 para o arquivo ficar legível
-                json.dump(output_fundos, f, ensure_ascii=False, indent=2)
-            print(f"Arquivo de fundos salvo em: {caminho_fundos}")
-            
-            with open(caminho_ativos, 'w', encoding='utf-8') as f:
-                json.dump(output_ativos, f, ensure_ascii=False, indent=2)
-            print(f"Arquivo de ativos salvo em: {caminho_ativos}")
-
-        except Exception as e:
-            print(f"--- ERRO --- ao salvar arquivos JSON: {e}")
-
-
-# --- Execução Principal ---
 if __name__ == "__main__":
-    # --- Configurações ---
-    # ATENÇÃO: Coloque aqui o nome exato do seu arquivo CSV limpo
-    ARQUIVO_ENTRADA_LIMPO = "../../data/output/carteiras_acoes_limpo_202501_20251018_164206.csv"
-    agora = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    PASTA_SAIDA_JSON = f"../output/json/{agora}/"
+    # Inicializa o sistema de recomendação
+    print("📂 Carregando Sistema de Recomendação de Ações...")
+    ARQUIVO_ENTRADA = '../../output/carteiras_com_setores_202406_amostra.csv'
+    sistema = SistemaRecomendadorAcoes(ARQUIVO_ENTRADA)
+    
+    # Seleciona um fundo para análise
+    # Usaremos um dos maiores fundos
+    cnpj_fundo_alvo = '2661252000197'  # FAPI AGGRESSIVE IB MULTIMERCADO
+    
+    # Obtém perfil do fundo
+    sistema.obter_perfil_fundo(cnpj_fundo_alvo)
+    
+    # Aplica cada abordagem de recomendação
+    print(f"\n\n{'#'*60}")
+    print("GERANDO RECOMENDAÇÕES PARA O FUNDO")
+    print(f"{'#'*60}")
+    
+    # 1. Filtragem Colaborativa
+    print("\n--- FILTRAGEM COLABORATIVA ---")
+    recomendacoes_colaborativo = sistema.recomendar_filtragem_colaborativa(cnpj_fundo_alvo, top_n=10)
+    print(recomendacoes_colaborativo.head(10))
+    
+    # 2. Filtragem por Conteúdo
+    print("\n--- FILTRAGEM POR CONTEÚDO ---")
+    recomendacoes_conteudo = sistema.recomendar_filtragem_conteudo(cnpj_fundo_alvo, top_n=10)
+    print(recomendacoes_conteudo.head(10))
 
-    # Cria e executa o processador
-    processador = ProcessadorDeRede(ARQUIVO_ENTRADA_LIMPO)
-    processador.processar()
-    processador.salvar_json(PASTA_SAIDA_JSON)
-
-    print("\n--- SUCESSO! --- Script concluído.")
+    # 3. Análise de Grafo
+    print("\n--- ANÁLISE DE GRAFO ---")
+    recomendacoes_grafo = sistema.recomendar_analise_grafo(cnpj_fundo_alvo, top_n=10)
+    print(recomendacoes_grafo[['ativo', 'nome', 'setor', 'pontuacao', 
+        'contagem_compras', 'contagem_vendas', 'proporcao_compra']].head(10))
+    
+    # 4. Filtro Híbrido
+    print("\n--- FILTRO HÍBRIDO ---")
+    recomendacoes_hibrido = sistema.recomendar_filtro_hibrido(cnpj_fundo_alvo, top_n=15)
+    print(recomendacoes_hibrido.head(15))
+    
+    print(f"\n{'='*60}")
+    print("SISTEMA DE RECOMENDAÇÃO FINALIZADO")
+    print(f"{'='*60}")
